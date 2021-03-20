@@ -25,6 +25,10 @@ const batch = new mongoose.Schema({
       type: Date,
       default: Date.now,
     },
+    tutor:{
+      type:String,
+      default:null
+    }
   },
   students: [],
   assigned: [],
