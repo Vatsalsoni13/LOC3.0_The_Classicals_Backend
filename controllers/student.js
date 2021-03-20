@@ -6,25 +6,21 @@ const Assignment = require("../models/Assignment");
 exports.getSearchBatches = async (req, res) => {
   const { userId } = req.query;
   try {
-      batches = await Batch.find();
-      let len=batches.length;
-      let newBtches=[];
-      for(let i=0;i<len;i++)
-      {
-        let len2=batches[i].students.length;
-        let f=false;
-        for(let j=0;j<len2;j++)
-        {
-          if(batches[i].students[j]===userId)
-          {
-            f=true;
-          }
-        }
-        if(!f)
-        {
-          newBtches.push(batches[i]);
+    batches = await Batch.find();
+    let len = batches.length;
+    let newBtches = [];
+    for (let i = 0; i < len; i++) {
+      let len2 = batches[i].students.length;
+      let f = false;
+      for (let j = 0; j < len2; j++) {
+        if (batches[i].students[j] === userId) {
+          f = true;
         }
       }
+      if (!f) {
+        newBtches.push(batches[i]);
+      }
+    }
     res.json(newBtches);
   } catch (error) {
     res.json({ message: error });
@@ -70,7 +66,6 @@ exports.getEnrolledBatches = async (req, res) => {
   }
 };
 
-
 exports.postResponse = async (req, res) => {
   const { path, istDateTime, name, assignId, studentId } = req.body;
   try {
@@ -81,6 +76,7 @@ exports.postResponse = async (req, res) => {
       istDateTime: istDateTime,
       name: name,
       studentId: studentId,
+      marks: "0",
     });
     await assignment.save();
     res.json(assignment);

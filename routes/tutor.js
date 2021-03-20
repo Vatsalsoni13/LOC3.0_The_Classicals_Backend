@@ -21,5 +21,6 @@ router.post("/schedule", scheduleController.scheduleAssignment);
 router.get("/assignments", tutorController.getBatchAssignments);
 router.get("/responses", tutorController.getAssignmentResponses);
 router.get("/attentive", tutorController.checkAttentive);
+router.post("/giveFeedback", tutorController.giveFeedback);
 // router.put("/schedule", tutorController.schedule);
 module.exports = router;

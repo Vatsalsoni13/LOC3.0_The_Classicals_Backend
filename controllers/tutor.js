@@ -161,3 +161,62 @@ exports.checkAttentive = (req, res) => {
   const { checkStr } = req.query;
   res.json(checkStr);
 };
+
+exports.giveFeedback = async (req, res) => {
+  const { assignId, studentId } = req.query;
+  const { marks } = req.body;
+  try {
+    let assignments = await Assignment.findById(assignId);
+    console.log(assignments);
+    let assignment = assignments.responses;
+    console.log(assignment);
+    let resp;
+    for (let i = 0; i < assignment.length; i++) {
+      if (assignment[i].studentId === studentId) {
+        Assignment.findOneAndUpdate(
+          { _id: assignId, "responses.studentId": studentId },
+          {
+            $set: { "responses.$.marks": marks },
+          },
+          { new: true },
+          (err, detail) => {
+            if (err) {
+              return res.status(400).json({
+                error: "Insert unsuccessful",
+              });
+            }
+            console.log(detail);
+            resp = detail;
+            // res.json(detail);
+          }
+        );
+        // obj = assignment[i];
+        // obj.marks = marks;
+        // indx = i;
+        // found = true;
+        break;
+      }
+    }
+    // console.log(obj);
+    // if (found)
+    //   await Assignment.findByIdAndUpdate(
+    //     { _id: assignId },
+    //     { $set: { response: obj } },
+    //     { new: true, useFindAndModify: false },
+    //     (err, detail) => {
+    //       if (err) {
+    //         return res.status(400).json({
+    //           error: "Insert unsuccessful",
+    //         });
+    //       }
+    //       res.json(detail);
+    //     }
+    //   );
+    // else {
+    //   return res.status(400);
+    // }
+    res.json(resp);
+  } catch (error) {
+    console.log(error);
+  }
+};
