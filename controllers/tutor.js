@@ -53,24 +53,23 @@ exports.createBatch = async (req, res) => {
   };
 
   try {
-    let newBatch = Batch(batch);
-    await newBatch.save();
-
     let user = await User.findById(userId);
+    batch.info.tutor=user.name;
+    let newBatch = Batch(batch);
+    await newBatch.save();    
     user.createdBatches.push({ batchId: newBatch._id.toString() });
     await user.save();
-    const assign = {
-      batchId: newBatch._id,
-      assigned: [],
-      assignments: [],
-    };
-    let assignment = Assignment(assign);
-    await assignment.save();
     res.json(newBatch);
   } catch (error) {
     res.json({ message: error });
   }
 };
+
+
+exports.getDoubts = async (req,res) =>{
+  const {tutorId} = req.query;
+
+}
 
 exports.getMyBatches = async (req, res) => {
   const { tutorId } = req.query;
