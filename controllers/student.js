@@ -41,7 +41,7 @@ exports.enrollBatch = async (req, res) => {
       res.json({ message: error });
     }
     let user = await User.findById(studentId);
-    user.enrolledBatches.push({ batchId: batchId });
+    user.enrolledBatches.push(batchId);
     console.log(user, "THIS is user");
     try {
       await user.save();
@@ -59,7 +59,7 @@ exports.getEnrolledBatches = async (req, res) => {
   try {
     let user = await User.findById(studentId);
     let batches = user.enrolledBatches.map(async (batch) => {
-      let cur = await Batch.findById(batch.batchId);
+      let cur = await Batch.findById(batch);
       return cur;
     });
     const allBatches = await Promise.all(batches);
