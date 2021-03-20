@@ -4,27 +4,30 @@ const Batch = require("../models/Batch");
 const Assignment = require("../models/Assignment");
 
 exports.getSearchBatches = async (req, res) => {
-  const { std, subject } = req.query;
+  let {userId} = req.query;
   console.log(std, subject);
   try {
-    let batches;
-    if (std !== "ALL" && subject !== "ALL") {
-      batches = await Batch.find({
-        "info.std": std,
-        "info.subject": subject,
-      });
-    } else if (std === "ALL" && subject !== "ALL") {
-      batches = await Batch.find({
-        "info.subject": subject,
-      });
-    } else if (subject === "ALL" && std !== "ALL") {
-      batches = await Batch.find({
-        "info.std": std,
-      });
-    } else {
+    
       batches = await Batch.find();
-    }
-    res.json(batches);
+      let len=batches.length;
+      let newBtches=[];
+      for(let i=0;i<len;i++)
+      {
+        let len2=batches[i].students.length;
+        let f=false;
+        for(let j=0;j<len2;j++)
+        {
+          if(batches[i].students[j]===userId)
+          {
+            f=true;
+          }
+        }
+        if(!f)
+        {
+          newBtches.push(batches[i]);
+        }
+      }
+    res.json(newBtches);
   } catch (error) {
     res.json({ message: error });
   }
