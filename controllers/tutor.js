@@ -29,13 +29,7 @@ exports.getSingleBatch = async (req, res) => {
 
 exports.createBatch = async (req, res) => {
   console.log(req.body);
-  const {
-    title,
-    description,
-    userId,
-    subject,
-    std,
-  } = req.body;
+  const { title, description, userId, subject, std } = req.body;
   // date format shd be yyyy/mm/dd
   //userId should be passed by front only so we should store it in async storage in app itself
   const info = {
@@ -54,9 +48,9 @@ exports.createBatch = async (req, res) => {
 
   try {
     let user = await User.findById(userId);
-    batch.info.tutor=user.name;
+    batch.info.tutor = user.name;
     let newBatch = Batch(batch);
-    await newBatch.save();    
+    await newBatch.save();
     user.createdBatches.push({ batchId: newBatch._id.toString() });
     await user.save();
     res.json(newBatch);
@@ -65,11 +59,9 @@ exports.createBatch = async (req, res) => {
   }
 };
 
-
-exports.getDoubts = async (req,res) =>{
-  const {tutorId} = req.query;
-
-}
+exports.getDoubts = async (req, res) => {
+  const { tutorId } = req.query;
+};
 
 exports.getMyBatches = async (req, res) => {
   const { tutorId } = req.query;
@@ -163,4 +155,9 @@ exports.schedule = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+exports.checkAttentive = (req, res) => {
+  const { checkStr } = req.query;
+  res.json(checkStr);
 };
