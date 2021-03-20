@@ -55,7 +55,7 @@ exports.verifyUser= async (req,res) =>{
     let user=await User.find({email:email,password:password});
     if(user.length)
     {
-      res.json({name:user[0].name,isStudent:user[0].isStudent,email:user[0].email});
+      res.json({name:user[0].name,isStudent:user[0].isStudent,email:user[0].email,userId:user[0]._id});
     }
     else
     {
@@ -65,7 +65,6 @@ exports.verifyUser= async (req,res) =>{
   } catch (error) {
     res.json({msg:"Invalid User"});
   }
-  
 }
 
 

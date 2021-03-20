@@ -28,16 +28,13 @@ exports.getSingleBatch = async (req, res) => {
 };
 
 exports.createBatch = async (req, res) => {
+  console.log(req.body);
   const {
     title,
     description,
-    fees,
     userId,
     subject,
     std,
-    date,
-    intake,
-    exp_date,
   } = req.body;
   // date format shd be yyyy/mm/dd
   //userId should be passed by front only so we should store it in async storage in app itself
@@ -46,15 +43,12 @@ exports.createBatch = async (req, res) => {
     std: std,
     subject: subject,
     description: description,
-    fees: fees,
-    date_of_begin: new Date(date),
-    expire_date: exp_date,
+    date_of_begin: new Date().toISOString(),
   };
   const batch = {
     userId: userId,
     info: info,
     students: [],
-    intake: intake,
     assigned: [],
   };
 

@@ -21,22 +21,10 @@ const batch = new mongoose.Schema({
       type: String,
       require: true,
     },
-    fees: {
-      type: String,
-      default: null,
-    },
     date_of_begin: {
       type: Date,
       default: Date.now,
     },
-    expire_date: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  intake: {
-    type: Number,
-    default: 10,
   },
   students: [],
   assigned: [],
