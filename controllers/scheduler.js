@@ -136,6 +136,7 @@ exports.scheduleAssignment = async (req, res) => {
 
 exports.scheduleLec = async (req,res) =>{
   const {batchId,date,time,link,name} = req.body;
+  console.log(req.body);
   let job = {};
   job.batchId = batchId;
   job.date = date; //2020-10-21 it shd be like this in front
@@ -146,7 +147,7 @@ exports.scheduleLec = async (req,res) =>{
     console.log(newJob, "THIS IS JOB");
     let batch = await Batch.findById(batchId);
     console.log(batch, "THIS IS BATCH");
-    batch.lecture.push({
+    batch.lectures.push({
       link: link,
       date: date,
       time: time,
