@@ -69,6 +69,7 @@ exports.getEnrolledBatches = async (req, res) => {
   }
 };
 
+
 exports.postResponse = async (req, res) => {
   const { path, istDateTime, name, assignId, studentId } = req.body;
   try {
