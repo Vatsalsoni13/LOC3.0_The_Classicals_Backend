@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const assignment = new mongoose.Schema({
+const lecture= new mongoose.Schema({
   link: {
     type: String,
   },
