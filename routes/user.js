@@ -9,5 +9,6 @@ router.param("email", userController.getUserByEmail);
 router.get("/:email", userController.getUser);
 
 router.post("/add", userController.addUser);
+router.post("/verify", userController.verifyUser);
 router.put("/update/:userId", userController.updateUser);
 module.exports = router;

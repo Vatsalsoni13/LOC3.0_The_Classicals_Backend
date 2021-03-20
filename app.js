@@ -20,7 +20,7 @@ app.use("/", (req, res) => {
   console.log("IN");
   res.send("Finally Deployed");
 });
-let PORT = process.env.PORT || 3000;
+let PORT = process.env.PORT || 8000;
 // PORT = 3000;
 app.listen(PORT, () => {
   "started server";

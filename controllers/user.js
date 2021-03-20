@@ -31,13 +31,13 @@ exports.getUser = (req, res) => {
 };
 
 exports.addUser = async (req, res) => {
-  const { name, email, qualification, location, phone } = req.body;
+  const { name, email, phone ,isStudent,password} = req.body;
   let user = {};
   user.name = name;
   user.email = email;
-  user.qualification = qualification;
-  user.location = location;
   user.phone = phone;
+  user.password = password;
+  user.isStudent=isStudent
   user.createdBatches = [];
   user.enrolledBatches = [];
   let newUser = new User(user);
@@ -46,6 +46,28 @@ exports.addUser = async (req, res) => {
   // console.log("ABC");
   res.json(newUser);
 };
+
+exports.verifyUser= async (req,res) =>{
+  const {email,password} = req.body;
+  
+  try {
+  
+    let user=await User.find({email:email,password:password});
+    if(user.length)
+    {
+      res.json({name:user[0].name,isStudent:user[0].isStudent,email:user[0].email});
+    }
+    else
+    {
+      res.json({msg:"Invalid user"});
+    }
+   
+  } catch (error) {
+    res.json({msg:"Invalid User"});
+  }
+  
+}
+
 
 exports.updateUser = (req, res) => {
   try {

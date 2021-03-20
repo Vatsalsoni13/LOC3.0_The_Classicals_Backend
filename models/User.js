@@ -8,13 +8,12 @@ const user = new mongoose.Schema({
     type: String,
     default: null,
   },
-  qualification: {
-    type: String,
-    default: null,
+  isStudent:{
+    type: Boolean,
+    default: true,
   },
-  location: {
-    type: String,
-    default: null,
+  password:{
+    type:String
   },
   phone: {
     type: String,
