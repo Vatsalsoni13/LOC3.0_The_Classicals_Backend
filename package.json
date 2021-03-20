@@ -1,0 +1,28 @@
+{
+  "name": "lco3.0_the_classicals_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vatsalsoni13/LCO3.0_The_Classicals_Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vatsalsoni13/LCO3.0_The_Classicals_Backend/issues"
+  },
+  "homepage": "https://github.com/Vatsalsoni13/LCO3.0_The_Classicals_Backend#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.1",
+    "multer": "^1.4.2",
+    "node-cron": "^3.0.0",
+    "nodemon": "^2.0.7"
+  }
+}
