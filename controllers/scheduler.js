@@ -5,6 +5,8 @@ const Job = require("../models/Scheduler");
 const { Mongoose } = require("mongoose");
 const cron = require("node-cron");
 const Assignment = require("../models/Assignment");
+const Lecture = require("../models/Lecture");
+
 
 // let noOfDays = new Map();
 // noOfDays.set(1,31);
@@ -131,6 +133,34 @@ exports.scheduleAssignment = async (req, res) => {
   }
 };
 
+
+exports.scheduleLec = async (req,res) =>{
+  const {batchId,date,time,link,name} = req.body;
+  console.log(req.body);
+  let job = {};
+  job.batchId = batchId;
+  job.date = date; //2020-10-21 it shd be like this in front
+  job.time = time;
+  try {
+    let newJob = new Job(job);
+    await newJob.save();
+    console.log(newJob, "THIS IS JOB");
+    let batch = await Batch.findById(batchId);
+    console.log(batch, "THIS IS BATCH");
+    batch.lectures.push({
+      link: link,
+      date: date,
+      time: time,
+      name:name
+    });
+    await batch.save();
+    res.json("SAB THIK");
+  } catch (error) {
+    res.json({ message: error });
+  }
+
+}
+
 cron.schedule("* * * * *", async () => {
   const d = TodaysDate();
   const t = CurrentTime();
@@ -160,9 +190,31 @@ cron.schedule("* * * * *", async () => {
           return itm;
         }
       });
+      let newLec = batch.lectures.map(async (itm) => {
+        if (itm.date === d && itm.time === t) {
+          let lecture = {
+            link: itm.path,
+            batchId: bId,
+            name: itm.name,
+          };
+          let newLecture = Lecture(lecture);
+          await newLecture.save();
+          return itm;
+        } else {
+          return itm;
+        }
+      });
+      let b = await Promise.all(newLec);
       let c = await Promise.all(newAssigned);
       console.log(c);
       batch.assigned = c.filter((itm) => {
+        if (itm.date === d && itm.time === t) {
+          console.log("ASSA");
+        } else {
+          return itm;
+        }
+      });
+      batch.lectures = b.filter((itm) => {
         if (itm.date === d && itm.time === t) {
           console.log("ASSA");
         } else {

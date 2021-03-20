@@ -3,6 +3,15 @@ const User = require("../models/User");
 const Batch = require("../models/Batch");
 const Assignment = require("../models/Assignment");
 const { Mongoose } = require("mongoose");
+const Pusher = require("pusher");
+
+const pusher = new Pusher({
+  appId: "1174927",
+  key: process.env.PUSHER_KEY,
+  secret: process.env.SECRET,
+  cluster: "ap2",
+});
+
 var ObjectID = require("mongodb").ObjectID;
 exports.getSingleBatch = async (req, res) => {
   const { batchId } = req.query;
