@@ -4,7 +4,9 @@ const Batch = require("../models/Batch");
 const Assignment = require("../models/Assignment");
 
 exports.getSearchBatches = async (req, res) => {
-  let {userId} = req.query;
+
+  
+  const { userId } = req.query;
   console.log(std, subject);
   try {
     
