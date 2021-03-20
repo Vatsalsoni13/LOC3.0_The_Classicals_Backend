@@ -7,7 +7,7 @@ exports.getSearchBatches = async (req, res) => {
 
   
   const { userId } = req.query;
-  console.log(std, subject);
+  
   try {
     
       batches = await Batch.find();
