@@ -4,12 +4,8 @@ const Batch = require("../models/Batch");
 const Assignment = require("../models/Assignment");
 
 exports.getSearchBatches = async (req, res) => {
-
-  
   const { userId } = req.query;
-  
   try {
-    
       batches = await Batch.find();
       let len=batches.length;
       let newBtches=[];
@@ -39,7 +35,7 @@ exports.enrollBatch = async (req, res) => {
   const { studentId, batchId } = req.query;
   try {
     let batch = await Batch.findById(batchId);
-    batch.students.push({ _id: studentId });
+    batch.students.push(studentId);
     try {
       await batch.save();
     } catch (error) {
