@@ -193,6 +193,7 @@ cron.schedule("* * * * *", async () => {
       });
       let newLec = batch.lectures.map(async (itm) => {
         if (itm.date === d && itm.time === t) {
+          console.log(itm.istDateTime,"YE HAI IST ");
           let lecture = {
             link: itm.link,
             batchId: bId,
