@@ -10,6 +10,9 @@ const lecture= new mongoose.Schema({
   batchId: {
     type: String,
   },
+  istDateTime:{
+    type:String
+  }
 });
 
 module.exports = Lecture = mongoose.model("lecture", lecture);
