@@ -4,6 +4,7 @@ const Batch = require("../models/Batch");
 const Assignment = require("../models/Assignment");
 const { Mongoose } = require("mongoose");
 const Pusher = require("pusher");
+const Lecture = require("../models/Lecture");
 
 const pusher = new Pusher({
   appId: "1174927",
@@ -11,6 +12,9 @@ const pusher = new Pusher({
   secret: process.env.SECRET,
   cluster: "ap2",
 });
+
+
+
 
 var ObjectID = require("mongodb").ObjectID;
 exports.getSingleBatch = async (req, res) => {
@@ -93,6 +97,22 @@ exports.getMyBatches = async (req, res) => {
   //   console.log(error);
   // }
 };
+
+exports.getBatchLec = async (req,res) =>{
+  const {batchId} = req.query;
+  try {
+    let lectures = await Lecture.find({ batchId: batchId });
+    let newLecs = lectures.map((item) => {
+      let asign = {};
+      asign.name = item.name;
+      asign.link=item.link;
+      return asign;
+    });
+    res.json(newLecs);
+  } catch (error) {
+    res.json({msg:error}); 
+  }
+}
 
 exports.getBatchAssignments = async (req, res) => {
   const { batchId } = req.query;

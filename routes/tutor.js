@@ -22,5 +22,6 @@ router.post("/schedule-lec", scheduleController.scheduleLec);
 router.get("/assignments", tutorController.getBatchAssignments);
 router.get("/responses", tutorController.getAssignmentResponses);
 router.get("/attentive", tutorController.checkAttentive);
+router.get("/lectures", tutorController.getBatchLec);
 // router.put("/schedule", tutorController.schedule);
 module.exports = router;
