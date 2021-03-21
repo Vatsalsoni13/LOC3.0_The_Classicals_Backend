@@ -135,7 +135,7 @@ exports.scheduleAssignment = async (req, res) => {
 
 
 exports.scheduleLec = async (req,res) =>{
-  const {batchId,date,time,link,name} = req.body;
+  const {batchId,date,time,link,name,istDateTime} = req.body;
   console.log(req.body);
   let job = {};
   job.batchId = batchId;
@@ -151,7 +151,8 @@ exports.scheduleLec = async (req,res) =>{
       link: link,
       date: date,
       time: time,
-      name:name
+      name:name,
+      istDateTime:istDateTime
     });
     await batch.save();
     res.json("SAB THIK");
@@ -196,6 +197,7 @@ cron.schedule("* * * * *", async () => {
             link: itm.link,
             batchId: bId,
             name: itm.name,
+            istDateTime:itm.istDateTime
           };
           let newLecture = Lecture(lecture);
           await newLecture.save();
