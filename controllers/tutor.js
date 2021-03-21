@@ -106,6 +106,7 @@ exports.getBatchLec = async (req,res) =>{
       let asign = {};
       asign.name = item.name;
       asign.link=item.link;
+      asign.time=item.istDateTime;
       return asign;
     });
     res.json(newLecs);
