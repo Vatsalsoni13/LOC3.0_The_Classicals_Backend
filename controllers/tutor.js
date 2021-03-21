@@ -23,7 +23,7 @@ exports.getSingleBatch = async (req, res) => {
     let batch = await Batch.findById(batchId);
     let len = batch.students.length;
     let i;
-    for(i = 0; i < len; i++) {
+    for (i = 0; i < len; i++) {
       let student = await User.findById(batch.students[i]);
       batch.students[i] = { name: student.name, email: student.email };
     }
@@ -140,7 +140,7 @@ exports.getAssignmentResponses = async (req, res) => {
     let len = assignment.responses.length;
     let i;
     let submitted = new Map();
-    for(i = 0; i < len; i++) {
+    for (i = 0; i < len; i++) {
       let student = await User.findById(assignment.responses[i].studentId);
       assignment.responses[i].email = student.email;
       assignment.responses[i].studentName = student.name;
@@ -149,8 +149,8 @@ exports.getAssignmentResponses = async (req, res) => {
     let batch = await Batch.findById(batchId);
     let notSubmitted = [];
     len = batch.students.length;
-    for(i = 0; i < len; i++) {
-      if(!submitted.has(batch.students[i]._id)) {
+    for (i = 0; i < len; i++) {
+      if (!submitted.has(batch.students[i]._id)) {
         let student = await User.findById(batch.students[i]._id);
         notSubmitted.push({ email: student.email, studentName: student.name });
       }
@@ -168,9 +168,12 @@ exports.schedule = async (req, res) => {
   const { batchId } = req.query;
   // console.log(req.body);
   try {
-    await Batch.findByIdAndUpdate({ _id: batchId }, { $addToSet: { lectures: req.body } }, { new: true, useFindAndModify: false },
+    await Batch.findByIdAndUpdate(
+      { _id: batchId },
+      { $addToSet: { lectures: req.body } },
+      { new: true, useFindAndModify: false },
       (err, detail) => {
-        if(err) {
+        if (err) {
           return res.status(400).json({
             error: "Insert unsuccessful",
           });
@@ -186,8 +189,63 @@ exports.schedule = async (req, res) => {
 exports.checkAttentive = (req, res) => {
   const { checkStr } = req.query;
   res.json(checkStr);
-  pusher.trigger("channel_attentive", "chatroom", {
-    message: checkStr
-  });
-  console.log(checkStr)
+};
+
+exports.giveFeedback = async (req, res) => {
+  const { assignId, studentId } = req.query;
+  const { marks } = req.body;
+  try {
+    let assignments = await Assignment.findById(assignId);
+    console.log(assignments);
+    let assignment = assignments.responses;
+    console.log(assignment);
+    let resp;
+    for (let i = 0; i < assignment.length; i++) {
+      if (assignment[i].studentId === studentId) {
+        Assignment.findOneAndUpdate(
+          { _id: assignId, "responses.studentId": studentId },
+          {
+            $set: { "responses.$.marks": marks },
+          },
+          { new: true },
+          (err, detail) => {
+            if (err) {
+              return res.status(400).json({
+                error: "Insert unsuccessful",
+              });
+            }
+            console.log(detail);
+            resp = detail;
+            // res.json(detail);
+          }
+        );
+        // obj = assignment[i];
+        // obj.marks = marks;
+        // indx = i;
+        // found = true;
+        break;
+      }
+    }
+    // console.log(obj);
+    // if (found)
+    //   await Assignment.findByIdAndUpdate(
+    //     { _id: assignId },
+    //     { $set: { response: obj } },
+    //     { new: true, useFindAndModify: false },
+    //     (err, detail) => {
+    //       if (err) {
+    //         return res.status(400).json({
+    //           error: "Insert unsuccessful",
+    //         });
+    //       }
+    //       res.json(detail);
+    //     }
+    //   );
+    // else {
+    //   return res.status(400);
+    // }
+    res.json(resp);
+  } catch (error) {
+    console.log(error);
+  }
 };
