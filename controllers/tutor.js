@@ -127,11 +127,13 @@ exports.getAssignmentResponses = async (req, res) => {
       submitted.set(assignment.responses[i].studentId, 1);
     }
     let batch = await Batch.findById(batchId);
+    console.log(batch);
     let notSubmitted = [];
     len = batch.students.length;
     for (i = 0; i < len; i++) {
-      if (!submitted.has(batch.students[i]._id)) {
-        let student = await User.findById(batch.students[i]._id);
+      if (!submitted.has(batch.students[i])) {
+        let student = await User.findById(batch.students[i]);
+        console.log(student);
         notSubmitted.push({ email: student.email, studentName: student.name });
       }
     }
@@ -140,6 +142,7 @@ exports.getAssignmentResponses = async (req, res) => {
     response.notSubmitted = notSubmitted;
     res.json(response);
   } catch (error) {
+    console.log(error);
     res.json({ message: error });
   }
 };
