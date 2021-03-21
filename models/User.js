@@ -8,12 +8,12 @@ const user = new mongoose.Schema({
     type: String,
     default: null,
   },
-  isStudent:{
+  isStudent: {
     type: Boolean,
     default: true,
   },
-  password:{
-    type:String
+  password: {
+    type: String,
   },
   phone: {
     type: String,

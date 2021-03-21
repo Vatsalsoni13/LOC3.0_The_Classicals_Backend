@@ -13,9 +13,6 @@ const pusher = new Pusher({
   cluster: "ap2",
 });
 
-
-
-
 var ObjectID = require("mongodb").ObjectID;
 exports.getSingleBatch = async (req, res) => {
   const { batchId } = req.query;
@@ -98,22 +95,22 @@ exports.getMyBatches = async (req, res) => {
   // }
 };
 
-exports.getBatchLec = async (req,res) =>{
-  const {batchId} = req.query;
+exports.getBatchLec = async (req, res) => {
+  const { batchId } = req.query;
   try {
     let lectures = await Lecture.find({ batchId: batchId });
     let newLecs = lectures.map((item) => {
       let asign = {};
       asign.name = item.name;
-      asign.link=item.link;
-      asign.time=item.istDateTime;
+      asign.link = item.link;
+      asign.time = item.istDateTime;
       return asign;
     });
     res.json(newLecs);
   } catch (error) {
-    res.json({msg:error}); 
+    res.json({ msg: error });
   }
-}
+};
 
 exports.getBatchAssignments = async (req, res) => {
   const { batchId } = req.query;
@@ -193,6 +190,10 @@ exports.schedule = async (req, res) => {
 exports.checkAttentive = (req, res) => {
   const { checkStr } = req.query;
   res.json(checkStr);
+  pusher.trigger("channel_attentive", "chatroom", {
+    message: checkStr,
+  });
+  console.log(checkStr);
 };
 
 exports.giveFeedback = async (req, res) => {
