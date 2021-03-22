@@ -126,6 +126,7 @@ exports.getBatchLec = async (req, res) => {
 
 exports.getBatchAssignments = async (req, res) => {
   const { batchId ,student_id } = req.query;
+  console.log(student_id);
   try {
     let assignments = await Assignment.find({ batchId: batchId });
     let newAssignments = assignments.map((item) => {
