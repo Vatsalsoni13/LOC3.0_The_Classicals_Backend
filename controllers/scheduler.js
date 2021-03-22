@@ -107,7 +107,7 @@ const CurrentTime = () => {
 // }
 exports.scheduleAssignment = async (req, res) => {
   //file
-  const { batchId, date, time, name, path, istDateTime, fileName } = req.body;
+  const { batchId, date, time, name, path, istDateTime, fileName , deadline } = req.body;
   let job = {};
   job.batchId = batchId;
   job.date = date; //2020-10-21 it shd be like this in front
@@ -125,6 +125,7 @@ exports.scheduleAssignment = async (req, res) => {
       istDateTime: istDateTime,
       name: name,
       fileName: fileName,
+      deadline:deadline
     });
     await batch.save();
     res.json("SAB THIK");
@@ -183,6 +184,7 @@ cron.schedule("* * * * *", async () => {
             batchId: bId,
             name: itm.name,
             fileName: itm.fileName,
+            deadline:itm.deadline
           };
           let newAssignment = Assignment(assignment);
           await newAssignment.save();
