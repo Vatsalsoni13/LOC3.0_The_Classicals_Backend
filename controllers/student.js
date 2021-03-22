@@ -156,12 +156,21 @@ exports.getAllAssignments = async (req, res) => {
 };
 
 exports.getBatchAssignments = async (req, res) => {
-  const { batchId } = req.query;
+  const { batchId , student_id } = req.query;
   try {
     let batchAssign = await Assignment.find({ batchId: batchId });
     console.log(batchAssign);
     let assignments = batchAssign.map((item) => {
       let asign = {};
+      let l=item.responses.length;
+      asign.completed = false;
+      for(let i=0;i<l;i++)
+      {
+        if(item.responses[i].studentId === student_id)
+        {
+          asign.completed=true;
+        }
+      }  
       asign.name = item.name;
       asign.istDateTime = item.istDateTime;
       asign.path = item.path;

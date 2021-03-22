@@ -69,9 +69,9 @@ exports.createBatch = async (req, res) => {
   }
 };
 
-exports.getDoubts = async (req, res) => {
-  const { tutorId } = req.query;
-};
+// exports.getDoubts = async (req, res) => {
+//   const { tutorId } = req.query;
+// };
 
 exports.getMyBatches = async (req, res) => {
   const { tutorId } = req.query;
@@ -131,6 +131,14 @@ exports.getBatchAssignments = async (req, res) => {
     let newAssignments = assignments.map((item) => {
       let asign = {};
       asign.name = item.name;
+      asign.completed = false;
+      for(let i=0;i<l;i++)
+      {
+        if(item.responses[i].studentId === student_id)
+        {
+          asign.completed=true;
+        }
+      }  
       asign.istDateTime = item.istDateTime;
       asign.path = item.path;
       asign.assignId = item._id;
