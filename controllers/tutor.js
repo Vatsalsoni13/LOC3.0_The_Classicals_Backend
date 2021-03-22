@@ -122,6 +122,7 @@ exports.getBatchAssignments = async (req, res) => {
       asign.istDateTime = item.istDateTime;
       asign.path = item.path;
       asign.assignId = item._id;
+      asign.deadline = item.deadline;
       asign.fileName = item.fileName;
       return asign;
     });

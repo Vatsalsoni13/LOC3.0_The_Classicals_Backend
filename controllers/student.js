@@ -143,6 +143,7 @@ exports.getAllAssignments = async (req, res) => {
       asign.path = item.path;
       asign.assignId = item._id;
       asign.fileName = item.fileName;
+      asign.deadline = item.deadline;
       let batch = await Batch.findById(item.batchId);
       asign.batchName = batch.info.title;
       asign.batchSubject = batch.info.subject;
