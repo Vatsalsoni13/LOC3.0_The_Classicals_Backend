@@ -95,6 +95,18 @@ exports.getMyBatches = async (req, res) => {
   // }
 };
 
+exports.extendDeadline = async (req,res) =>{
+  const {assignment_id,new_deadline} = req.body;
+  try {
+    let assignment = await Assignment.findById(assignment_id);
+    assignment.deadline = new_deadline;
+    await assignment.save();
+    res.json("Deadline updated successfully");
+  } catch (error) {
+    res.json("Something went wrong");
+  }
+
+}
 exports.getBatchLec = async (req, res) => {
   const { batchId } = req.query;
   try {
