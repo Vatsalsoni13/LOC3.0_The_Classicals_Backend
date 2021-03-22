@@ -16,6 +16,9 @@ const assignment = new mongoose.Schema({
   istDateTime: {
     type: String,
   },
+  deadline:{
+    type :String
+  },
   responses: [],
 });
 
