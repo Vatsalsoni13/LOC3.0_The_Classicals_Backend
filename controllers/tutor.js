@@ -133,6 +133,7 @@ exports.getBatchAssignments = async (req, res) => {
       let asign = {};
       asign.name = item.name;
       asign.completed = false;
+      let l=responses.length;
       for(let i=0;i<l;i++)
       {
         if(item.responses[i].studentId === student_id)
