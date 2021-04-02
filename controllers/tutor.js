@@ -6,12 +6,12 @@ const { Mongoose } = require("mongoose");
 const Pusher = require("pusher");
 const Lecture = require("../models/Lecture");
 
-// const pusher = new Pusher({
-//   appId: "1174927",
-//   key: process.env.PUSHER_KEY,
-//   secret: process.env.SECRET,
-//   cluster: "ap2",
-// });
+const pusher = new Pusher({
+  appId: "1182102",
+  key: process.env.PUSHER_KEY,
+  secret: process.env.SECRET,
+  cluster: "ap2",
+});
 
 var ObjectID = require("mongodb").ObjectID;
 exports.getSingleBatch = async (req, res) => {
@@ -95,8 +95,8 @@ exports.getMyBatches = async (req, res) => {
   // }
 };
 
-exports.extendDeadline = async (req,res) =>{
-  const {assignment_id,new_deadline} = req.body;
+exports.extendDeadline = async (req, res) => {
+  const { assignment_id, new_deadline } = req.body;
   try {
     let assignment = await Assignment.findById(assignment_id);
     assignment.deadline = new_deadline;
@@ -105,8 +105,7 @@ exports.extendDeadline = async (req,res) =>{
   } catch (error) {
     res.json("Something went wrong");
   }
-
-}
+};
 exports.getBatchLec = async (req, res) => {
   const { batchId } = req.query;
   try {
@@ -125,7 +124,7 @@ exports.getBatchLec = async (req, res) => {
 };
 
 exports.getBatchAssignments = async (req, res) => {
-  const { batchId ,student_id } = req.query;
+  const { batchId, student_id } = req.query;
   console.log(student_id);
   try {
     let assignments = await Assignment.find({ batchId: batchId });
@@ -133,17 +132,15 @@ exports.getBatchAssignments = async (req, res) => {
       let asign = {};
       asign.name = item.name;
       asign.completed = false;
-      asign.marks=0;
-      let l=item.responses.length;
-      for(let i=0;i<l;i++)
-      {
-        if(item.responses[i].studentId === student_id)
-        {
-          asign.completed=true;
-          asign.marks=item.responses[i].marks
+      asign.marks = 0;
+      let l = item.responses.length;
+      for (let i = 0; i < l; i++) {
+        if (item.responses[i].studentId === student_id) {
+          asign.completed = true;
+          asign.marks = item.responses[i].marks;
           break;
         }
-      }  
+      }
       asign.istDateTime = item.istDateTime;
       asign.path = item.path;
       asign.assignId = item._id;
@@ -214,9 +211,9 @@ exports.schedule = async (req, res) => {
 };
 
 exports.checkAttentive = (req, res) => {
-  const { checkStr } = req.query;
+  const { checkStr, classroomId } = req.query;
   res.json(checkStr);
-  pusher.trigger("channel_attentive", "chatroom", {
+  pusher.trigger(`${classroomId}`, "chatroom", {
     message: checkStr,
   });
   console.log(checkStr);
