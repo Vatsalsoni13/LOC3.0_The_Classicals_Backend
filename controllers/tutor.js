@@ -7,7 +7,7 @@ const Pusher = require("pusher");
 const Lecture = require("../models/Lecture");
 
 const pusher = new Pusher({
-  appId: "1182102",
+  appId: "",
   key: process.env.PUSHER_KEY,
   secret: process.env.SECRET,
   cluster: "ap2",
