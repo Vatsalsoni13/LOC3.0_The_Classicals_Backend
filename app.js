@@ -17,7 +17,7 @@ app.use("/tutor", tutorRoutes);
 app.use("/user", userRoutes);
 app.use("/student", studentRoutes);
 app.use("/batch", tutorController.getSingleBatch);
-
+app.disable("etag");
 app.use("/", (req, res) => {
   console.log("IN");
   res.send("Finally Deployed");
